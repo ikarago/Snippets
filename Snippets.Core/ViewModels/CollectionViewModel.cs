@@ -63,7 +63,7 @@ namespace Snippets.Core.ViewModels
                     _newSnippetCommand = new RelayCommand(
                         () =>
                         {
-                            // #TODO
+                            NewSnippet();
                         });
                 }
                 return _newSnippetCommand;
@@ -87,18 +87,47 @@ namespace Snippets.Core.ViewModels
             }
         }
 
+        private ICommand _saveSnippetCommand;
+        public ICommand SaveSnippetCommand
+        {
+            get
+            {
+                if (_saveSnippetCommand == null)
+                {
+                    _saveSnippetCommand = new RelayCommand(
+                        () =>
+                        {
+                            SaveSnippet();
+                        });
+                }
+                return _saveSnippetCommand;
+            }
+        }
 
 
 
         // Methods
         private void GetSnippets()
         {
-            // #TODO
+            // #TODO Let the ViewModel import an Model automagically
+            var _snippetModels = DatabaseService.GetSnippets();
+
+            foreach(var sm in _snippetModels)
+            {
+                SnippetViewModel svm = new SnippetViewModel();
+                svm.Id = sm.Id;
+                svm.Title = sm.Title;
+                svm.Details = sm.Details;
+                svm.CreatedOn = sm.CreatedOn;
+                svm.LastModifiedOn = sm.LastModifiedOn;
+
+                _snippets.Add(svm);
+            }
         }
 
         private void NewSnippet()
         {
-            // #TODO
+            // #TODO: Test and documentation
             SelectedSnippet = new SnippetViewModel();
             SelectedSnippet.Details = _newSnippetString;
 

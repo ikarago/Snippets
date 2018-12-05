@@ -1,4 +1,5 @@
 ﻿
+using Snippets.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -47,7 +48,10 @@ namespace Snippets.Core.ViewModels
 
 
         // Constructor
+        //public SnippetViewModel(SnippetModel model)
+        //{
 
+        //}
 
 
         // Methods
