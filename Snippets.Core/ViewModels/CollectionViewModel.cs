@@ -1,5 +1,6 @@
 ﻿using Snippets.Core.Helpers;
 using Snippets.Core.Models;
+using Snippets.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,14 @@ namespace Snippets.Core.ViewModels
             get { return _selectedSnippet; }
             set { SetProperty(ref _selectedSnippet, value); }
         }
+
+        private string _newSnippetString;
+        public string NewSnippetString
+        {
+            get { return _newSnippetString; }
+            set { SetProperty(ref _newSnippetString, value); }
+        }
+
 
 
         // Constructor
@@ -90,12 +99,32 @@ namespace Snippets.Core.ViewModels
         private void NewSnippet()
         {
             // #TODO
+            SelectedSnippet = new SnippetViewModel();
+            SelectedSnippet.Details = _newSnippetString;
 
+            NewSnippetString = "";
+
+            SaveSnippet();
+
+            Snippets.Add(SelectedSnippet);
         }
 
         private void SaveSnippet()
         {
-            // #TODO
+            
+            SnippetModel model = new SnippetModel();
+
+            model.Id = SelectedSnippet.Id;
+            model.Title = SelectedSnippet.Title;
+            model.Details = SelectedSnippet.Details;
+            model.CreatedOn = SelectedSnippet.CreatedOn;
+            model.LastModifiedOn = SelectedSnippet.LastModifiedOn;
+
+            var savedModel = DatabaseService.Write(model);
+
+            SelectedSnippet.Id = savedModel.Id;
+            SelectedSnippet.CreatedOn = savedModel.CreatedOn;
+            SelectedSnippet.LastModifiedOn = savedModel.LastModifiedOn;
         }
 
         private void DeleteSnippet()
