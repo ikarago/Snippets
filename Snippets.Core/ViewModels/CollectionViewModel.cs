@@ -4,6 +4,7 @@ using Snippets.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
 
@@ -80,7 +81,7 @@ namespace Snippets.Core.ViewModels
                     _deleteSnippetCommand = new RelayCommand(
                         () =>
                         {
-                            // #TODO
+                            DeleteSnippet();
                         });
                 }
                 return _deleteSnippetCommand;
@@ -128,14 +129,18 @@ namespace Snippets.Core.ViewModels
         private void NewSnippet()
         {
             // #TODO: Test and documentation
-            SelectedSnippet = new SnippetViewModel();
-            SelectedSnippet.Details = _newSnippetString;
+            // #TEMP
+            NewSnippetString = "Hello!";
+
+            SnippetViewModel newSnippet = new SnippetViewModel();
+            newSnippet.Details = _newSnippetString;
 
             NewSnippetString = "";
 
-            SaveSnippet();
+            newSnippet = SaveNewSnippet(newSnippet);
 
-            Snippets.Add(SelectedSnippet);
+            Snippets.Add(newSnippet);
+            //SelectedSnippet = Snippets.IndexOf(newSnippet).
         }
 
         private void SaveSnippet()
@@ -156,9 +161,49 @@ namespace Snippets.Core.ViewModels
             SelectedSnippet.LastModifiedOn = savedModel.LastModifiedOn;
         }
 
+        private SnippetViewModel SaveNewSnippet(SnippetViewModel snippet)
+        {
+
+            SnippetModel model = new SnippetModel();
+
+            model.Id = snippet.Id;
+            model.Title = snippet.Title;
+            model.Details = snippet.Details;
+            model.CreatedOn = snippet.CreatedOn;
+            model.LastModifiedOn = snippet.LastModifiedOn;
+
+            var savedModel = DatabaseService.Write(model);
+
+            snippet.Id = savedModel.Id;
+            snippet.CreatedOn = savedModel.CreatedOn;
+            snippet.LastModifiedOn = savedModel.LastModifiedOn;
+
+            return snippet;
+        }
+
         private void DeleteSnippet()
         {
-            // #TODO
+            Debug.WriteLine("CollectionViewModel - Delete Snippet... START");
+
+            SnippetViewModel snippet = _selectedSnippet;
+
+            try
+            {
+                // #TODO Convert Snippet to Model via the SnippetViewModel only
+                SnippetModel model = new SnippetModel();
+
+                model.Id = SelectedSnippet.Id;
+                model.Title = SelectedSnippet.Title;
+                model.Details = SelectedSnippet.Details;
+                model.CreatedOn = SelectedSnippet.CreatedOn;
+                model.LastModifiedOn = SelectedSnippet.LastModifiedOn;
+
+                DatabaseService.Delete(model);
+                Snippets.Remove(snippet);
+                SelectedSnippet = null;
+                Debug.WriteLine("CollectionViewModel - Delete Snippet... SUCCESSFUL");
+            }
+            catch { Debug.WriteLine("CollectionViewModel - Delete Snippet... FAILED"); }
         }
     }
 }

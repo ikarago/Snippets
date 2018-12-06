@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Snippets.Core.Services;
 using Snippets.UWP.Services;
 
 using Windows.ApplicationModel;
@@ -20,6 +20,8 @@ namespace Snippets.UWP
         public App()
         {
             InitializeComponent();
+
+            DatabaseService.InitializeDatabase();
 
             EnteredBackground += App_EnteredBackground;
             Resuming += App_Resuming;

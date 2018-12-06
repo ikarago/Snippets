@@ -15,28 +15,27 @@
         Padding="{StaticResource DetailPageMargin}">
         <StackPanel HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                <FontIcon
+                <!--<FontIcon
                     FontSize="48"
                     Glyph="{x:Bind MasterMenuItem.Symbol, Mode=OneWay}"
                     VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
+                    HorizontalAlignment="Center"/>-->
                 <TextBlock
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center"
-                    Text="{x:Bind MasterMenuItem.Company, Mode=OneWay}"
+                    Text="{x:Bind MasterMenuItem.Id, Mode=OneWay}"
                     Style="{ThemeResource TitleTextBlockStyle}" />
             </StackPanel>
             <StackPanel Name="block" Padding="0,15,0,0">
-                <TextBlock Text="Status" Style="{StaticResource DetailSubTitleStyle}"/>
-                <TextBlock Text="{x:Bind MasterMenuItem.Status, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                <TextBlock Text="Order date" Style="{StaticResource DetailSubTitleStyle}" Margin="{StaticResource SmallTopMargin}"/>
-                <TextBlock Text="{x:Bind MasterMenuItem.OrderDate, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                <TextBlock Text="Company" Style="{StaticResource DetailSubTitleStyle}" Margin="{StaticResource SmallTopMargin}"/>
-                <TextBlock Text="{x:Bind MasterMenuItem.Company, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                <TextBlock Text="Ship to" Style="{StaticResource DetailSubTitleStyle}" Margin="{StaticResource SmallTopMargin}"/>
-                <TextBlock Text="{x:Bind MasterMenuItem.ShipTo, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                <TextBlock Text="Order total" Style="{StaticResource DetailSubTitleStyle}" Margin="{StaticResource SmallTopMargin}"/>
-                <TextBlock Text="{x:Bind MasterMenuItem.OrderTotal, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                <TextBlock Text="Title" Style="{StaticResource DetailSubTitleStyle}"/>
+                <TextBox Text="{x:Bind MasterMenuItem.Title, Mode=TwoWay}"/>
+                <TextBlock Text="Details" Style="{StaticResource DetailSubTitleStyle}" Margin="{StaticResource SmallTopMargin}"/>
+                <TextBox Text="{x:Bind MasterMenuItem.Details, Mode=TwoWay}" />
+                <TextBlock Text="Created On" Style="{StaticResource DetailSubTitleStyle}" Margin="{StaticResource SmallTopMargin}"/>
+                <TextBox Text="{x:Bind MasterMenuItem.CreatedOn, Mode=OneWay}" />
+                <TextBlock Text="Last Modified" Style="{StaticResource DetailSubTitleStyle}" Margin="{StaticResource SmallTopMargin}"/>
+                <TextBox Text="{x:Bind MasterMenuItem.LastModifiedOn, Mode=OneWay}" />
+
 
                 <TextBlock Text="Note 1" Style="{StaticResource DetailSubTitleStyle}" Margin="{StaticResource MediumTopMargin}" />
                 <TextBlock Style="{StaticResource DetailBodyStyle}" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis hendrerit nulla, vel molestie libero. In nec ultricies magna, ultricies molestie ipsum. Mauris non dignissim velit. Etiam malesuada blandit mauris eu maximus. Quisque ornare, felis nec scelerisque mollis, risus dolor posuere magna, in gravida quam mi id nisi. Nullam mattis consequat ex. Cras nulla neque, dictum ac urna et, vestibulum feugiat ex. Pellentesque malesuada accumsan ligula, vel fringilla lacus facilisis sit amet. Proin convallis tempor arcu, ac placerat libero pretium ut. Praesent hendrerit nisl at lobortis viverra. Fusce vitae velit odio. Nam ut tortor sed purus finibus sollicitudin quis at ante. Ut sodales dolor vel eros mollis suscipit. Donec eu nulla id urna ultricies consequat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;" />

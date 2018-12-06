@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:model="using:Snippets.UWP.Models"
+    xmlns:model="using:Snippets.Core.Models"
+    xmlns:viewmodels="using:Snippets.Core.ViewModels"
     xmlns:views="using:Snippets.UWP.Views"
     mc:Ignorable="d">
     <Page.Transitions>
@@ -15,16 +16,16 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
-        <DataTemplate x:Key="ItemTemplate" x:DataType="model:SampleOrder">
+        <DataTemplate x:Key="ItemTemplate" x:DataType="viewmodels:SnippetViewModel">
             <Grid Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <FontIcon Grid.Column="0" FontSize="32" Glyph="{x:Bind Symbol}" VerticalAlignment="Center" />
+                <!--<FontIcon Grid.Column="0" FontSize="32" Glyph="{x:Bind Symbol}" VerticalAlignment="Center" />-->
                 <StackPanel Grid.Column="1" Margin="{StaticResource SmallLeftMargin}" VerticalAlignment="Center">
-                    <TextBlock Text="{x:Bind Company}" Style="{ThemeResource ListTitleStyle}"/>
-                    <TextBlock Text="{x:Bind Status}" Style="{StaticResource ListSubTitleStyle}"/>
+                    <TextBlock Text="{x:Bind Id}" Style="{ThemeResource ListTitleStyle}"/>
+                    <TextBlock Text="{x:Bind Details, Mode=OneWay}" Style="{StaticResource ListSubTitleStyle}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -60,14 +61,32 @@
     <Grid x:Name="ContentArea">
         <controls:MasterDetailsView
             x:Name="MasterDetailsViewControl"
-            ItemsSource="{x:Bind ViewModel.SampleItems}"
-            SelectedItem="{x:Bind ViewModel.Selected, Mode=TwoWay}"
+            ItemsSource="{x:Bind ViewModel.Snippets}"
+            SelectedItem="{x:Bind ViewModel.SelectedSnippet, Mode=TwoWay}"
             ItemTemplate="{StaticResource ItemTemplate}"
             DetailsTemplate="{StaticResource DetailsTemplate}"
             NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}"
             BorderBrush="Transparent"
             MasterHeader="MasterDetail"
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
-            MasterHeaderTemplate="{StaticResource MasterHeaderTemplate}"/>
+            MasterHeaderTemplate="{StaticResource MasterHeaderTemplate}">
+            <controls:MasterDetailsView.MasterCommandBar>
+                <CommandBar>
+                    <AppBarButton Label="Add"
+                                  Icon="Add"
+                                  Command="{x:Bind ViewModel.NewSnippetCommand}" />
+                </CommandBar>
+            </controls:MasterDetailsView.MasterCommandBar>
+            <controls:MasterDetailsView.DetailsCommandBar>
+                <CommandBar>
+                    <AppBarButton Label="Save"
+                                  Icon="Save"
+                                  Command="{x:Bind ViewModel.SaveSnippetCommand}" />
+                    <AppBarButton Label="Delete"
+                                  Icon="Delete"
+                                  Command="{x:Bind ViewModel.DeleteSnippetCommand}" />
+                </CommandBar>
+            </controls:MasterDetailsView.DetailsCommandBar>
+        </controls:MasterDetailsView>
     </Grid>
 </Page>

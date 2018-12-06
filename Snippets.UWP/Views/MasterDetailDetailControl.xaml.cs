@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Snippets.Core.ViewModels;
 using Snippets.UWP.Models;
 
 using Windows.UI.Xaml;
@@ -9,13 +9,13 @@ namespace Snippets.UWP.Views
 {
     public sealed partial class MasterDetailDetailControl : UserControl
     {
-        public SampleOrder MasterMenuItem
+        public SnippetViewModel MasterMenuItem
         {
-            get { return GetValue(MasterMenuItemProperty) as SampleOrder; }
+            get { return GetValue(MasterMenuItemProperty) as SnippetViewModel; }
             set { SetValue(MasterMenuItemProperty, value); }
         }
 
-        public static readonly DependencyProperty MasterMenuItemProperty = DependencyProperty.Register("MasterMenuItem", typeof(SampleOrder), typeof(MasterDetailDetailControl), new PropertyMetadata(null, OnMasterMenuItemPropertyChanged));
+        public static readonly DependencyProperty MasterMenuItemProperty = DependencyProperty.Register("MasterMenuItem", typeof(SnippetViewModel), typeof(MasterDetailDetailControl), new PropertyMetadata(null, OnMasterMenuItemPropertyChanged));
 
         public MasterDetailDetailControl()
         {

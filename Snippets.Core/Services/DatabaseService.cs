@@ -68,6 +68,9 @@ namespace Snippets.Core.Services
                         existingSnippet.LastModifiedOn = DateTime.Now;
 
                         int success = db.Update(existingSnippet);
+
+                        // Write new Modification time to the snippetmodel that gets passed back as well
+                        snippet.LastModifiedOn = DateTime.Now;
                     }
                     else
                     {
@@ -92,7 +95,34 @@ namespace Snippets.Core.Services
         }
 
 
-        // #TODO Delete
+        // Delete
+        public static bool Delete(SnippetModel snippet)
+        {
+            Debug.WriteLine("Database Service - Deleting Snippet, Id = " + snippet.Id + "... START");
 
+            bool success = false;
+
+            using (var db = new SQLiteConnection(DB_PATH_LOCAL))
+            {
+                // Try to get the existing Snippet from the dbase
+                // If there is no snippet like this, this function will fail; this to prevent accidental deletions
+                var existingSnippet = db.Table<SnippetModel>().Where(s => s.Id == snippet.Id).FirstOrDefault();
+                if (existingSnippet != null)
+                {
+                    db.RunInTransaction(() =>
+                    {
+                        db.Delete(existingSnippet);
+                        // Now check if the snippet really has been deleted from the dbase
+                        if (db.Table<SnippetModel>().Where(s => s.Id == existingSnippet.Id).FirstOrDefault() == null)
+                        {
+                            Debug.WriteLine("Database Service - Deleting Snippet, Id = " + snippet.Id + "... SUCCESSFUL");
+                        }
+                        else { Debug.WriteLine("Database Service - Deleting Snippet, Id = " + snippet.Id + "... FAILED"); }
+                    });
+                }
+            }
+
+            return success;
+        }
     }
 }

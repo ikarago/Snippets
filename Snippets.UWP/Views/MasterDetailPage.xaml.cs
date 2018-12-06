@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Snippets.Core.ViewModels;
 using Snippets.UWP.ViewModels;
 
 using Windows.UI.Xaml;
@@ -9,17 +9,17 @@ namespace Snippets.UWP.Views
 {
     public sealed partial class MasterDetailPage : Page
     {
-        public MasterDetailViewModel ViewModel { get; } = new MasterDetailViewModel();
+        public CollectionViewModel ViewModel { get; } = new CollectionViewModel();
 
         public MasterDetailPage()
         {
             InitializeComponent();
-            Loaded += MasterDetailPage_Loaded;
+            //Loaded += MasterDetailPage_Loaded;
         }
 
-        private async void MasterDetailPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            await ViewModel.LoadDataAsync(MasterDetailsViewControl.ViewState);
-        }
+        //private async void MasterDetailPage_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    await ViewModel.LoadDataAsync(MasterDetailsViewControl.ViewState);
+        //}
     }
 }
