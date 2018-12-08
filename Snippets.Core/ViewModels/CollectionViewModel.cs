@@ -110,7 +110,6 @@ namespace Snippets.Core.ViewModels
         // Methods
         private void GetSnippets()
         {
-            // #TODO Let the ViewModel import an Model automagically
             var _snippetModels = DatabaseService.GetSnippets();
 
             foreach(var sm in _snippetModels)
@@ -145,15 +144,6 @@ namespace Snippets.Core.ViewModels
 
         private void SaveSnippet()
         {
-            
-            //SnippetModel model = new SnippetModel();
-
-            //model.Id = SelectedSnippet.Id;
-            //model.Title = SelectedSnippet.Title;
-            //model.Details = SelectedSnippet.Details;
-            //model.CreatedOn = SelectedSnippet.CreatedOn;
-            //model.LastModifiedOn = SelectedSnippet.LastModifiedOn;
-
             var savedModel = DatabaseService.Write(_selectedSnippet.GetSnippetModel());
 
             SelectedSnippet.Id = savedModel.Id;
@@ -163,15 +153,6 @@ namespace Snippets.Core.ViewModels
 
         private SnippetViewModel SaveNewSnippet(SnippetViewModel snippet)
         {
-
-            //SnippetModel model = new SnippetModel();
-
-            //model.Id = snippet.Id;
-            //model.Title = snippet.Title;
-            //model.Details = snippet.Details;
-            //model.CreatedOn = snippet.CreatedOn;
-            //model.LastModifiedOn = snippet.LastModifiedOn;
-
             var savedModel = DatabaseService.Write(snippet.GetSnippetModel());
 
             snippet.Id = savedModel.Id;
@@ -189,15 +170,6 @@ namespace Snippets.Core.ViewModels
 
             try
             {
-                // #TODO Convert Snippet to Model via the SnippetViewModel only
-                //SnippetModel model = new SnippetModel();
-
-                //model.Id = SelectedSnippet.Id;
-                //model.Title = SelectedSnippet.Title;
-                //model.Details = SelectedSnippet.Details;
-                //model.CreatedOn = SelectedSnippet.CreatedOn;
-                //model.LastModifiedOn = SelectedSnippet.LastModifiedOn;
-
                 DatabaseService.Delete(snippet.GetSnippetModel());
                 Snippets.Remove(snippet);
                 SelectedSnippet = null;
