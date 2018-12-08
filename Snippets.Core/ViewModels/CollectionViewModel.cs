@@ -146,15 +146,15 @@ namespace Snippets.Core.ViewModels
         private void SaveSnippet()
         {
             
-            SnippetModel model = new SnippetModel();
+            //SnippetModel model = new SnippetModel();
 
-            model.Id = SelectedSnippet.Id;
-            model.Title = SelectedSnippet.Title;
-            model.Details = SelectedSnippet.Details;
-            model.CreatedOn = SelectedSnippet.CreatedOn;
-            model.LastModifiedOn = SelectedSnippet.LastModifiedOn;
+            //model.Id = SelectedSnippet.Id;
+            //model.Title = SelectedSnippet.Title;
+            //model.Details = SelectedSnippet.Details;
+            //model.CreatedOn = SelectedSnippet.CreatedOn;
+            //model.LastModifiedOn = SelectedSnippet.LastModifiedOn;
 
-            var savedModel = DatabaseService.Write(model);
+            var savedModel = DatabaseService.Write(_selectedSnippet.GetSnippetModel());
 
             SelectedSnippet.Id = savedModel.Id;
             SelectedSnippet.CreatedOn = savedModel.CreatedOn;
@@ -164,15 +164,15 @@ namespace Snippets.Core.ViewModels
         private SnippetViewModel SaveNewSnippet(SnippetViewModel snippet)
         {
 
-            SnippetModel model = new SnippetModel();
+            //SnippetModel model = new SnippetModel();
 
-            model.Id = snippet.Id;
-            model.Title = snippet.Title;
-            model.Details = snippet.Details;
-            model.CreatedOn = snippet.CreatedOn;
-            model.LastModifiedOn = snippet.LastModifiedOn;
+            //model.Id = snippet.Id;
+            //model.Title = snippet.Title;
+            //model.Details = snippet.Details;
+            //model.CreatedOn = snippet.CreatedOn;
+            //model.LastModifiedOn = snippet.LastModifiedOn;
 
-            var savedModel = DatabaseService.Write(model);
+            var savedModel = DatabaseService.Write(snippet.GetSnippetModel());
 
             snippet.Id = savedModel.Id;
             snippet.CreatedOn = savedModel.CreatedOn;
@@ -190,15 +190,15 @@ namespace Snippets.Core.ViewModels
             try
             {
                 // #TODO Convert Snippet to Model via the SnippetViewModel only
-                SnippetModel model = new SnippetModel();
+                //SnippetModel model = new SnippetModel();
 
-                model.Id = SelectedSnippet.Id;
-                model.Title = SelectedSnippet.Title;
-                model.Details = SelectedSnippet.Details;
-                model.CreatedOn = SelectedSnippet.CreatedOn;
-                model.LastModifiedOn = SelectedSnippet.LastModifiedOn;
+                //model.Id = SelectedSnippet.Id;
+                //model.Title = SelectedSnippet.Title;
+                //model.Details = SelectedSnippet.Details;
+                //model.CreatedOn = SelectedSnippet.CreatedOn;
+                //model.LastModifiedOn = SelectedSnippet.LastModifiedOn;
 
-                DatabaseService.Delete(model);
+                DatabaseService.Delete(snippet.GetSnippetModel());
                 Snippets.Remove(snippet);
                 SelectedSnippet = null;
                 Debug.WriteLine("CollectionViewModel - Delete Snippet... SUCCESSFUL");

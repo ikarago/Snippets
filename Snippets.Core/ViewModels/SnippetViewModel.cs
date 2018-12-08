@@ -6,56 +6,64 @@ using System.Text;
 
 namespace Snippets.Core.ViewModels
 {
-    public class SnippetViewModel : NotificationBase
+    public class SnippetViewModel : NotificationBase<SnippetModel>
     {
         // Properties
-        private int _id;
+        private SnippetModel _snippetModel;
+
         public int Id
         {
-            get { return _id; }
-            set { SetProperty(ref _id, value); }
+            get { return This.Id; }
+            set { SetProperty(This.Id, value, () => This.Id = value); }
         }
 
-        private string _title;
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get { return This.Title; }
+            set { SetProperty(This.Title, value, () => This.Title = value); }
         }
 
-        private string _details;
         public string Details
         {
-            get { return _details; }
-            set { SetProperty(ref _details, value); }
+            get { return This.Details; }
+            set { SetProperty(This.Details, value, () => This.Details = value); }
         }
 
-        private DateTime _createdOn;
         public DateTime CreatedOn
         {
-            get { return _createdOn; }
-            set { SetProperty(ref _createdOn, value); }
+            get { return This.CreatedOn; }
+            set { SetProperty(This.CreatedOn, value, () => This.CreatedOn = value); }
         }
 
-        private DateTime _lastModifiedOn;
         public DateTime LastModifiedOn
         {
-            get { return _lastModifiedOn; }
-            set { SetProperty(ref _lastModifiedOn, value); }
+            get { return This.LastModifiedOn; }
+            set { SetProperty(This.LastModifiedOn, value, () => This.LastModifiedOn = value); }
         }
 
 
 
 
         // Constructor
-        //public SnippetViewModel(SnippetModel model)
-        //{
-
-        //}
+        public SnippetViewModel()
+        {
+            _snippetModel = new SnippetModel();
+        }
 
 
         // Methods
+        public SnippetModel GetSnippetModel()
+        {
+            SnippetModel model = new SnippetModel();
 
+            model.Id = This.Id;
+            model.Title = This.Title;
+            model.Details = This.Details;
+            model.CreatedOn = This.CreatedOn;
+            model.LastModifiedOn = This.LastModifiedOn;
+
+            return model;
+        }
 
 
     }
