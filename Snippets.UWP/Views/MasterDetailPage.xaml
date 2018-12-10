@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:model="using:Snippets.Core.Models"
     xmlns:viewmodels="using:Snippets.Core.ViewModels"
     xmlns:views="using:Snippets.UWP.Views"
     mc:Ignorable="d">
@@ -16,17 +15,40 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
-        <DataTemplate x:Key="ItemTemplate" x:DataType="viewmodels:SnippetViewModel">
-            <Grid Height="60">
+        <DataTemplate x:Key="ItemTemplate"
+                      x:DataType="viewmodels:SnippetViewModel">
+            <Grid HorizontalAlignment="Stretch"
+                  Padding="0,12"
+                  BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
+                  BorderThickness="0,0,0,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>                
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <!--<FontIcon Grid.Column="0" FontSize="32" Glyph="{x:Bind Symbol}" VerticalAlignment="Center" />-->
-                <StackPanel Grid.Column="1" Margin="{StaticResource SmallLeftMargin}" VerticalAlignment="Center">
-                    <TextBlock Text="{x:Bind Id}" Style="{ThemeResource ListTitleStyle}"/>
-                    <TextBlock Text="{x:Bind Details, Mode=OneWay}" Style="{StaticResource ListSubTitleStyle}"/>
-                </StackPanel>
+
+                <!-- Data -->
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="{x:Bind Title, Mode=OneWay}"
+                           Style="{ThemeResource ListTitleStyle}" />
+
+                <TextBlock Grid.Row="0"
+                           Grid.Column="1"
+                           Text="{x:Bind LastModifiedOn, Mode=OneWay}"
+                           HorizontalAlignment="Right"
+                           Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                           Style="{ThemeResource CaptionTextBlockStyle}" />
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Text="{x:Bind Details, Mode=OneWay}"
+                           MaxLines="3"
+                           Style="{ThemeResource ListSubTitleStyle}" />
             </Grid>
         </DataTemplate>
 
@@ -37,7 +59,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="NoSelectionContentTemplate">
-            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid>
                 <TextBlock
                     x:Uid="MasterDetail_NoSelection"
                     Style="{StaticResource SubtitleTextBlockStyle}"
@@ -56,25 +78,251 @@
                     Style="{StaticResource ListTitleStyle}" />
             </Grid>
         </DataTemplate>
+        <Style x:Key="MasterDetailsViewDesktopStyle" TargetType="controls:MasterDetailsView">
+            <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource ApplicationForegroundThemeBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="controls:MasterDetailsView">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Margin="0,-36,0,0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition From="NoSelectionWide" To="HasSelection">
+                                            <Storyboard>
+                                                <DrillInThemeAnimation ExitTargetName="NoSelectionPresenter" EntranceTargetName="SelectionDetailsPanel"/>
+                                            </Storyboard>
+                                        </VisualTransition>
+                                        <VisualTransition From="NoSelectionNarrow" To="HasSelection">
+                                            <Storyboard>
+                                                <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.25" From="200" Storyboard.TargetName="DetailsPresenterTransform" Storyboard.TargetProperty="X" To="0">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <QuarticEase EasingMode="EaseOut"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.25" From="0" Storyboard.TargetName="SelectionDetailsPanel" Storyboard.TargetProperty="Opacity" To="1">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <QuarticEase EasingMode="EaseOut"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </VisualTransition>
+                                        <VisualTransition From="HasSelection" To="NoSelectionWide">
+                                            <Storyboard>
+                                                <DrillOutThemeAnimation ExitTargetName="SelectionDetailsPanel" EntranceTargetName="NoSelectionPresenter"/>
+                                            </Storyboard>
+                                        </VisualTransition>
+                                        <VisualTransition From="HasSelection" To="NoSelectionNarrow">
+                                            <Storyboard>
+                                                <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.25" From="0" Storyboard.TargetName="DetailsPresenterTransform" Storyboard.TargetProperty="X" To="200"/>
+                                                <DoubleAnimation BeginTime="0:0:0.08" Duration="0:0:0.17" From="1" Storyboard.TargetName="SelectionDetailsPanel" Storyboard.TargetProperty="Opacity" To="0">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <QuarticEase EasingMode="EaseOut"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <DoubleAnimation BeginTime="0:0:0.0" Duration="0:0:0.25" From="0" Storyboard.TargetName="MasterPanel" Storyboard.TargetProperty="Opacity" To="1">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <QuarticEase EasingMode="EaseIn"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </VisualTransition>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="NoSelectionWide">
+                                        <VisualState.Setters>
+                                            <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed"/>
+                                            <Setter Target="MasterPanel.Visibility" Value="Visible"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="HasSelectionWide">
+                                        <VisualState.Setters>
+                                            <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
+                                            <Setter Target="MasterPanel.Visibility" Value="Visible"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="HasSelectionNarrow">
+                                        <VisualState.Setters>
+                                            <Setter Target="MasterPanel.Visibility" Value="Collapsed"/>
+                                            <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="NoSelectionNarrow">
+                                        <VisualState.Setters>
+                                            <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
+                                            <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed"/>
+                                            <Setter Target="MasterPanel.Visibility" Value="Visible"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="WidthStates">
+                                    <VisualState x:Name="NarrowState">
+                                        <VisualState.Setters>
+                                            <Setter Target="MasterColumn.Width" Value="*"/>
+                                            <Setter Target="DetailsColumn.Width" Value="0"/>
+                                            <Setter Target="DetailsPanel.(Grid.Column)" Value="0"/>
+                                            <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
+                                            <Setter Target="MasterPanel.BorderThickness" Value="0"/>
+                                            <Setter Target="MasterPanel.Width" Value="NaN"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="WideState"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="RootPanel">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition x:Name="MasterColumn" Width="Auto"/>
+                                    <ColumnDefinition x:Name="DetailsColumn" Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid x:Name="MasterPanel"
+                                      Background="{TemplateBinding MasterPaneBackground}"
+                                      BorderThickness="0,0,1,0"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      Width="{TemplateBinding MasterPaneWidth}"
+                                      Padding="0,36,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding MasterHeaderTemplate}" Content="{TemplateBinding MasterHeader}" Margin="12,0" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
+                                    <ListView x:Name="MasterList" ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}" ItemContainerStyle="{TemplateBinding ItemContainerStyle}" IsTabStop="False" ItemTemplate="{TemplateBinding ItemTemplate}" ItemsSource="{TemplateBinding ItemsSource}" ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}" Grid.Row="1" SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                    <Grid x:Name="MasterCommandBarPanel" Grid.Row="2"/>
+                                </Grid>
+                                <Grid x:Name="DetailsPanel"
+                                      Grid.Column="1">
+                                    <ContentPresenter x:Name="NoSelectionPresenter"
+                                                      ContentTemplate="{TemplateBinding NoSelectionContentTemplate}" Content="{TemplateBinding NoSelectionContent}"/>
+                                    <controls:DropShadowPanel x:Name="SelectionDetailsPanel"
+                                                              HorizontalContentAlignment="Stretch">
+                                        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                              Padding="0,36,0,0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.RenderTransform>
+                                                <TranslateTransform x:Name="DetailsPresenterTransform"/>
+                                            </Grid.RenderTransform>
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Button x:Name="MasterDetailsBackButton" Background="Transparent" Height="44" Visibility="Collapsed" Width="48">
+                                                    <SymbolIcon Symbol="Back"/>
+                                                </Button>
+                                                <ContentPresenter x:Name="DetailsHeaderPresenter" ContentTemplate="{TemplateBinding DetailsHeaderTemplate}" Content="{TemplateBinding DetailsHeader}" Grid.Column="1"/>
+                                            </Grid>
+                                            <ContentPresenter x:Name="DetailsPresenter" Background="{TemplateBinding Background}" ContentTemplate="{TemplateBinding DetailsTemplate}" Grid.Row="1"/>
+                                            <Grid x:Name="DetailsCommandBarPanel" Grid.Row="2"/>
+                                        </Grid>
+                                    </controls:DropShadowPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
-    <Grid x:Name="ContentArea">
-        <controls:MasterDetailsView
+    <Grid x:Name="ContentArea"
+          Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Titlebar -->
+        <Grid x:Name="gridTitlebar"
+              Grid.Row="0"
+              Canvas.ZIndex="200">
+            <StackPanel Orientation="Horizontal">
+                <Image x:Name="imgAppIcon"
+                       Height="16"
+                       Width="16"
+                       Margin="16,0"
+                       Source="/Assets/Logo/contrast-standard/Square44x44Logo.altform-unplated_targetsize-256.png" />
+                <TextBlock x:Uid="MainPage_AppTitle"
+                           Text="Snippets"
+                           Style="{ThemeResource CaptionTextBlockStyle}"
+                           Margin="4,0,12,0"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+        <!-- END OF Titlebar -->
+
+        <controls:MasterDetailsView Style="{StaticResource MasterDetailsViewDesktopStyle}"
             x:Name="MasterDetailsViewControl"
+            Grid.Row="1"
+            Background="Transparent"
             ItemsSource="{x:Bind ViewModel.Snippets}"
             SelectedItem="{x:Bind ViewModel.SelectedSnippet, Mode=TwoWay}"
             ItemTemplate="{StaticResource ItemTemplate}"
             DetailsTemplate="{StaticResource DetailsTemplate}"
             NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}"
             BorderBrush="Transparent"
-            MasterHeader="MasterDetail"
-            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
-            MasterHeaderTemplate="{StaticResource MasterHeaderTemplate}">
+            HorizontalContentAlignment="Stretch"
+            BackButtonBehavior="Inline">
+            <controls:MasterDetailsView.MasterHeader>
+                <!-- Input -->
+                <controls:DropShadowPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                          HorizontalAlignment="Stretch"
+                                          HorizontalContentAlignment="Stretch"
+                                          Margin="0,12"
+                                          Padding="0"
+                                          OffsetX="2"
+                                          OffsetY="2">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="txtNewSnipText"
+                                 Grid.Column="0"
+                                 Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                 VerticalContentAlignment="Stretch"
+                                 Text="{x:Bind ViewModel.NewSnippetString, Mode=TwoWay}"
+                                 PlaceholderText="What do you want to remember?"
+                                 AcceptsReturn="True"
+                                 Padding="14"
+                                 BorderThickness="0,0,0,1"
+                                 BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"/>
+                        <Button x:Name="btnAdd"
+                                Grid.Column="1"
+                                Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                RequestedTheme="Dark"
+                                MinHeight="48"
+                                Width="48"
+                                VerticalAlignment="Stretch"
+                                Content="&#xE122;"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="20"
+                                Command="{x:Bind ViewModel.NewSnippetCommand}" />
+                    </Grid>
+                </controls:DropShadowPanel>
+
+            </controls:MasterDetailsView.MasterHeader>
+            <!-- END OF Input -->
             <controls:MasterDetailsView.MasterCommandBar>
                 <CommandBar>
-                    <AppBarButton Label="Add"
-                                  Icon="Add"
-                                  Command="{x:Bind ViewModel.NewSnippetCommand}" />
+                    <AppBarButton Label="Search"
+                                  Icon="Find" />
+                    <CommandBar.SecondaryCommands>
+                        <AppBarButton Label="Settings"
+                                      Icon="Setting"/>
+                        <AppBarButton Label="About">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE946;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar.SecondaryCommands>
                 </CommandBar>
             </controls:MasterDetailsView.MasterCommandBar>
             <controls:MasterDetailsView.DetailsCommandBar>
@@ -87,6 +335,13 @@
                                   Command="{x:Bind ViewModel.DeleteSnippetCommand}" />
                 </CommandBar>
             </controls:MasterDetailsView.DetailsCommandBar>
+
+
+            <controls:MasterDetailsView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </controls:MasterDetailsView.ItemContainerStyle>
         </controls:MasterDetailsView>
     </Grid>
 </Page>

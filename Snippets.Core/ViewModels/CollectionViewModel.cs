@@ -110,9 +110,9 @@ namespace Snippets.Core.ViewModels
         // Methods
         private void GetSnippets()
         {
-            var _snippetModels = DatabaseService.GetSnippets();
+            var snippetModels = DatabaseService.GetSnippets();
 
-            foreach(var sm in _snippetModels)
+            foreach(var sm in snippetModels)
             {
                 SnippetViewModel svm = new SnippetViewModel();
                 svm.Id = sm.Id;
@@ -128,9 +128,6 @@ namespace Snippets.Core.ViewModels
         private void NewSnippet()
         {
             // #TODO: Test and documentation
-            // #TEMP
-            NewSnippetString = "Hello!";
-
             SnippetViewModel newSnippet = new SnippetViewModel();
             newSnippet.Details = _newSnippetString;
 
