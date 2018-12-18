@@ -248,7 +248,7 @@
                        Height="16"
                        Width="16"
                        Margin="16,0"
-                       Source="/Assets/Logo/contrast-standard/Square44x44Logo.altform-unplated_targetsize-256.png" />
+                       Source="/Assets/Logo/Temp/Square44x44Logo.altform-unplated_targetsize-256.png" />
                 <TextBlock x:Uid="MainPage_AppTitle"
                            Text="Snippets"
                            Style="{ThemeResource CaptionTextBlockStyle}"
