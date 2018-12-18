@@ -272,34 +272,34 @@
             BackButtonBehavior="Inline">
             <controls:MasterDetailsView.MasterHeader>
                 <!-- Input -->
-                <controls:DropShadowPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                                          HorizontalAlignment="Stretch"
+                <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                           HorizontalContentAlignment="Stretch"
                                           Margin="0,12"
                                           Padding="0"
                                           OffsetX="2"
                                           OffsetY="2">
-                    <Grid Background="Transparent">
+                    <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="txtNewSnipText"
                                  Grid.Column="0"
-                                 Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                 Background="Transparent"
                                  VerticalContentAlignment="Stretch"
                                  Text="{x:Bind ViewModel.NewSnippetString, Mode=TwoWay}"
                                  PlaceholderText="What do you want to remember?"
                                  AcceptsReturn="True"
                                  Padding="14"
-                                 BorderThickness="0,0,0,1"
+                                 BorderThickness="0,0,0,0"
                                  BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"/>
                         <Button x:Name="btnAdd"
                                 Grid.Column="1"
-                                Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                Background="Transparent"
+                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                 RequestedTheme="Dark"
-                                MinHeight="48"
-                                Width="48"
+                                MinHeight="40"
+                                Width="40"
                                 VerticalAlignment="Stretch"
                                 Content="&#xE122;"
                                 FontFamily="Segoe MDL2 Assets"
