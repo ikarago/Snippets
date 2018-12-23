@@ -198,6 +198,7 @@
                                     <ContentPresenter x:Name="NoSelectionPresenter"
                                                       ContentTemplate="{TemplateBinding NoSelectionContentTemplate}" Content="{TemplateBinding NoSelectionContent}"/>
                                     <controls:DropShadowPanel x:Name="SelectionDetailsPanel"
+                                                              ShadowOpacity="0.6"
                                                               HorizontalContentAlignment="Stretch">
                                         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                                               Padding="0,36,0,0">
@@ -274,6 +275,7 @@
                 <!-- Input -->
                 <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                           HorizontalContentAlignment="Stretch"
+                                          ShadowOpacity="0.6"
                                           Margin="0,12"
                                           Padding="0"
                                           OffsetX="2"
