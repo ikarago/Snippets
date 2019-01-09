@@ -9,7 +9,7 @@ namespace Snippets.UWP.Views
 {
     public sealed partial class MasterDetailPage : Page
     {
-        public CollectionViewModel ViewModel { get; } = new CollectionViewModel();
+        public MasterDetailViewModel ViewModel { get; } = new MasterDetailViewModel();
 
         public MasterDetailPage()
         {
