@@ -59,14 +59,40 @@
         </DataTemplate>
 
         <DataTemplate x:Key="NoSelectionContentTemplate">
-            <Grid>
-                <TextBlock
-                    x:Uid="MasterDetail_NoSelection"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    TextAlignment="Center"/>
-            </Grid>
+            <controls:DropShadowPanel HorizontalAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"
+                                      ShadowOpacity="0.6">
+                <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+                      Padding="48">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Style="{ThemeResource SubheaderTextBlockStyle}"
+                               FontWeight="Bold"
+                               TextWrapping="WrapWholeWords"
+                               Text="No Snip selected"/>
+
+                    <TextBlock Grid.Row="1"
+                               Style="{ThemeResource BodyTextBlockStyle}"
+                               Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                               TextWrapping="WrapWholeWords"
+                               Text="Please select a snip from the bar on the left or create a new one."
+                               Margin="0,12,0,0"/>
+
+                    <Image x:Name="picDetailsEmptyBackground"
+                           Grid.Row="2"
+                           Source="ms-appx:///Assets/Logo/contrast-black/StoreLogo.scale-400.png" 
+                           Canvas.ZIndex="1"
+                           HorizontalAlignment="Right" 
+                           Width="120" 
+                           Height="120"
+                           VerticalAlignment="Bottom"/>
+                </Grid>
+            </controls:DropShadowPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="MasterHeaderTemplate">
