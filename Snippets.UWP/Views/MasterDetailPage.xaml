@@ -24,7 +24,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
-                </Grid.RowDefinitions>                
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -263,8 +263,8 @@
             x:Name="MasterDetailsViewControl"
             Grid.Row="1"
             Background="Transparent"
-            ItemsSource="{x:Bind ViewModel.Data.Snippets}"
-            SelectedItem="{x:Bind ViewModel.Data.SelectedSnippet, Mode=TwoWay}"
+            ItemsSource="{x:Bind ViewModel.Core.Snippets}"
+            SelectedItem="{x:Bind ViewModel.Core.SelectedSnippet, Mode=TwoWay}"
             ItemTemplate="{StaticResource ItemTemplate}"
             DetailsTemplate="{StaticResource DetailsTemplate}"
             NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}"
@@ -289,7 +289,7 @@
                                  Grid.Column="0"
                                  Background="Transparent"
                                  VerticalContentAlignment="Stretch"
-                                 Text="{x:Bind ViewModel.Data.NewSnippetString, Mode=TwoWay}"
+                                 Text="{x:Bind ViewModel.Core.NewSnippetString, Mode=TwoWay}"
                                  PlaceholderText="What do you want to remember?"
                                  AcceptsReturn="True"
                                  Padding="14"
@@ -306,7 +306,7 @@
                                 Content="&#xE122;"
                                 FontFamily="Segoe MDL2 Assets"
                                 FontSize="20"
-                                Command="{x:Bind ViewModel.Data.NewSnippetCommand}" />
+                                Command="{x:Bind ViewModel.NewSnippetCommand}" />
                     </Grid>
                 </controls:DropShadowPanel>
 
@@ -333,10 +333,27 @@
                 <CommandBar>
                     <AppBarButton Label="Save"
                                   Icon="Save"
-                                  Command="{x:Bind ViewModel.Data.SaveSnippetCommand}" />
+                                  Command="{x:Bind ViewModel.SaveSnippetCommand}" />
+                    <AppBarButton Label="Share"
+                                  Icon="Share"
+                                  Command="{x:Bind ViewModel.ShareSnippetCommand}" />
+                    <AppBarButton Label="Copy"
+                                  Icon="Copy">
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="Copy all"
+                                                Icon="Copy"
+                                                Command="{x:Bind ViewModel.CopySnippetCommand}"/>
+                                <MenuFlyoutItem Text="Copy content"
+                                                Icon="Copy"
+                                                Command="{x:Bind ViewModel.CopySnippetContentCommand}" />
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
                     <AppBarButton Label="Delete"
                                   Icon="Delete"
-                                  Command="{x:Bind ViewModel.Data.DeleteSnippetCommand}" />
+                                  Command="{x:Bind ViewModel.DeleteSnippetCommand}" />
+                    
                 </CommandBar>
             </controls:MasterDetailsView.DetailsCommandBar>
 
