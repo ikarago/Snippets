@@ -233,4 +233,16 @@
   <data name="Master_Dates-Yesterday" xml:space="preserve">
     <value>Yesterday</value>
   </data>
+  <data name="FBTN-CopyAll" xml:space="preserve">
+    <value>Copy all</value>
+  </data>
+  <data name="FBTN-CopyContent" xml:space="preserve">
+    <value>Copy content</value>
+  </data>
+  <data name="FBTN-Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="FBTN-Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
 </root>

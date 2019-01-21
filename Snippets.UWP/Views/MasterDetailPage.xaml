@@ -17,14 +17,38 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
+        <!-- Convertors -->
         <helpers:DateTimeToFriendlyStringConverter x:Key="DateTimeToFriendlyStringConverter" />
 
+        <!-- Menu Flyouts -->
+        <MenuFlyout x:Key="MasterItemMenuFlyout">
+            <MenuFlyoutItem x:Uid="FBTN-CopyContent"
+                            Text="Copy content"
+                            Icon="Copy"
+                            Command="{x:Bind ViewModel.CopySnippetContentCommand}" />
+            <MenuFlyoutItem x:Uid="FBTN-CopyAll"
+                            Text="Copy all"
+                            Icon="Copy"
+                            Command="{x:Bind ViewModel.CopySnippetCommand}" />
+            <MenuFlyoutItem x:Uid="FBTN-Share"
+                            Text="Share"
+                            Icon="Share"
+                            Command="{x:Bind ViewModel.ShareSnippetCommand}" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem x:Uid="FBTN-Delete"
+                            Text="Delete"
+                            Icon="Delete"
+                            Command="{x:Bind ViewModel.DeleteSnippetCommand}" />
+        </MenuFlyout>
+
+        <!-- Item Templates-->
         <DataTemplate x:Key="ItemTemplate"
                       x:DataType="viewmodels:SnippetViewModel">
             <Grid HorizontalAlignment="Stretch"
                   Padding="0,12"
                   BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
-                  BorderThickness="0,0,0,1">
+                  BorderThickness="0,0,0,1"
+                  ContextFlyout="{StaticResource MasterItemMenuFlyout}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -56,12 +80,14 @@
             </Grid>
         </DataTemplate>
 
+        <!-- Details Template -->
         <DataTemplate x:Key="DetailsTemplate">
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <views:MasterDetailDetailControl MasterMenuItem="{Binding}"/>
             </Grid>
         </DataTemplate>
 
+        <!-- No Selection Template -->
         <DataTemplate x:Key="NoSelectionContentTemplate">
             <controls:DropShadowPanel HorizontalAlignment="Stretch"
                                       HorizontalContentAlignment="Stretch"
