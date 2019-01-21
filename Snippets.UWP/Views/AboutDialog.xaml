@@ -5,14 +5,15 @@
     xmlns:local="using:Snippets.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
+    
     Background="{ThemeResource SystemControlAcrylicElementBrush}"
     BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}">
 
     <Grid>
         <contract7Present:Grid.BackgroundTransition>
-            <BrushTransition />
+            <contract7Present:BrushTransition />
         </contract7Present:Grid.BackgroundTransition>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -36,74 +37,77 @@ xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentatio
                        FontWeight="Bold"/>
         </StackPanel>
 
-        <!-- Title and close button -->
-        <RelativePanel Grid.Row="0"
-                       HorizontalAlignment="Stretch"
-                       Visibility="Collapsed"
-                       Padding="0,0,0,6"
-                       BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                       BorderThickness="0,0,0,1">
-            <TextBlock x:Uid="About_Title"
-                       Text="About"
-                       FontWeight="Bold"
-                       Style="{ThemeResource TitleTextBlockStyle}"
-                       RelativePanel.AlignVerticalCenterWithPanel="True"/>
-            <Button Content="&#xE106;"
-                    Background="Transparent"
-                    FontFamily="Segoe MDL2 Assets"
-                    Height="40"
-                    Width="40"
-                    RelativePanel.AlignRightWithPanel="True"
-                    Command="{x:Bind CloseDialogCommand}"/>
-        </RelativePanel>
+        
+        <!-- Content -->
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Padding="0,12,0,0">
+                <!-- App info -->
+                <StackPanel Margin="{StaticResource DialogCategoryMargin}">
+                    <!-- App Title -->
+                    <TextBlock Text="{x:Bind ViewModel.AppName}"
+                               Style="{ThemeResource SubtitleTextBlockStyle}"
+                               FontWeight="Bold"/>
+                    <!-- Version number -->
+                    <TextBlock Text="{x:Bind ViewModel.VersionNumber, Mode=OneWay}"
+                               Margin="0,0,0,4"
+                               Style="{ThemeResource CaptionTextBlockStyle}"/>
+                    <!-- About Description -->
+                    <TextBlock Text="Snippets, created and programmed by Ikarago, 2016-2019"
+                               x:Uid="About_Description"
+                               TextWrapping="Wrap"
+                               Margin="{StaticResource XSmallTopMargin}"/>
+                </StackPanel>
 
-        <Grid Grid.Row="1"
-              Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <!-- App logo -->
-            <Image x:Name="imgLogo"
-                   Grid.Column="0"
-                   Source="/Assets/Logo/contrast-standard/Square44x44Logo.scale-400.png" 
-                   Height="38"
-                   Width="38"
-                   VerticalAlignment="Center"/>
+                <!-- Translators -->
+                <StackPanel Margin="{StaticResource DialogCategoryMargin}"
+                            Visibility="Collapsed">
+                    <TextBlock x:Uid="About_TranslatorsTitle"
+                               Text="Translators"
+                               FontWeight="Bold"
+                               Margin="{StaticResource DialogSubtitleMargin}"
+                               Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <TextBlock x:Uid="About_Translators"
+                               Text="Sample text"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
 
-            <StackPanel Grid.Column="1"
-                        Margin="24,0,12,0">
-                <!-- App Title -->
-                <TextBlock Text="{x:Bind ViewModel.AppName}"
-                           Style="{ThemeResource SubtitleTextBlockStyle}"
-                           FontWeight="Bold"/>
-                <!-- Version number -->
-                <TextBlock Text="{x:Bind ViewModel.VersionNumber, Mode=OneWay}" 
-                           Style="{ThemeResource CaptionTextBlockStyle}"/>
-                <!-- About Description -->
-                <TextBlock Text="Snippets, created and programmed by Ikarago, 2018"
-                           x:Uid="About_Description"
-                           TextWrapping="Wrap"
-                           Margin="{StaticResource EightTopMargin}" />
-                <!-- Privacy Policy -->
-                <HyperlinkButton x:Uid="About_PrivacyTermsLink"
-                                 Margin="{StaticResource EightTopMargin}"
-                                 Content="Privacy Policy"
-                                 NavigateUri="https://ikarago.tumblr.com/privacy-policy"/>
-                <!-- Feedback Hub link-->
-                <!--<HyperlinkButton Margin="{StaticResource EightTopMargin}"
-                                 x:Uid="FeedbackHub_Link"
-                                 Content="Feedback"
-                                 Command="{x:Bind ViewModel.LaunchFeedbackHubCommand}"
-                                 Visibility="{x:Bind ViewModel.FeedbackLinkVisibility}" />-->
-                <!-- GitHub Project -->
-                <HyperlinkButton x:Uid="About_GitHubLink"
-                                 Margin="{StaticResource EightTopMargin}"
-                                 Content="GitHub project"
-                                 NavigateUri="https://github.com/ikarago/Talkinator"/>
+
+                <!-- Links -->
+                <StackPanel Margin="{StaticResource DialogCategoryMargin}">
+                    <TextBlock x:Uid="About_LinksTitle"
+                               Text="Links"
+                               FontWeight="Bold"
+                               Margin="{StaticResource DialogSubtitleMargin}"
+                               Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <!-- Privacy Policy -->
+                    <HyperlinkButton x:Uid="About_PrivacyTermsLink"
+                                     Content="Privacy Policy"
+                                     NavigateUri="https://ikarago.com/privacy-policy" />
+                    <!-- Feedback Hub link-->
+                    <!--<HyperlinkButton x:Uid="FeedbackHub_Link"
+                                     Content="Feedback"
+                                     Command="{x:Bind ViewModel.LaunchFeedbackHubCommand}"
+                                     Visibility="{x:Bind ViewModel.FeedbackLinkVisibility}"/>-->
+                    <!-- GitHub Project -->
+                    <HyperlinkButton x:Uid="About_GitHubLink"
+                                     Content="GitHub project"
+                                     NavigateUri="https://github.com/ikarago/Snippets" />
+                </StackPanel>
             </StackPanel>
-        </Grid>
+
+        </ScrollViewer>
+
+        <!-- Dialog background icon -->
+        <Image x:Name="imgLogo"
+               Grid.Row="1"
+               Source="/Assets/Logo/in-app/logo-white.png" 
+               Height="72"
+               Width="72"
+               Opacity="0.25"
+               Visibility="Visible"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Bottom"/>
 
         <FontIcon Grid.Row="1"
                   Canvas.ZIndex="5"
