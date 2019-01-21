@@ -226,4 +226,11 @@
     <value>Translators</value>
     <comment>About - Translators</comment>
   </data>
+  <data name="Master_Dates-Today" xml:space="preserve">
+    <value>Today,</value>
+    <comment>Gets displayed as: Today, +Time</comment>
+  </data>
+  <data name="Master_Dates-Yesterday" xml:space="preserve">
+    <value>Yesterday</value>
+  </data>
 </root>

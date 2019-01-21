@@ -5,7 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
+    
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:helpers="using:Snippets.UWP.Helpers"
     xmlns:viewmodels="using:Snippets.Core.ViewModels"
     xmlns:views="using:Snippets.UWP.Views"
     mc:Ignorable="d">
@@ -15,6 +17,8 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
+        <helpers:DateTimeToFriendlyStringConverter x:Key="DateTimeToFriendlyStringConverter" />
+
         <DataTemplate x:Key="ItemTemplate"
                       x:DataType="viewmodels:SnippetViewModel">
             <Grid HorizontalAlignment="Stretch"
@@ -38,7 +42,7 @@
 
                 <TextBlock Grid.Row="0"
                            Grid.Column="1"
-                           Text="{x:Bind LastModifiedOn, Mode=OneWay}"
+                           Text="{x:Bind LastModifiedOn, Mode=OneWay, Converter={StaticResource DateTimeToFriendlyStringConverter}}"
                            HorizontalAlignment="Right"
                            Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                            Style="{ThemeResource CaptionTextBlockStyle}" />
