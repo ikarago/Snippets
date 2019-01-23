@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Windows.Input;
 using Snippets.Core.ViewModels;
 using Snippets.UWP.Helpers;
 using Snippets.UWP.Views;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace Snippets.UWP.ViewModels
 {
@@ -128,7 +130,7 @@ namespace Snippets.UWP.ViewModels
                     _shareSnippetCommand = new RelayCommand(
                         () =>
                         {
-                            // #TODO
+                            ShareSnippet();
                         });
                 }
                 return _shareSnippetCommand;
@@ -171,6 +173,49 @@ namespace Snippets.UWP.ViewModels
 
 
         // Methods
+
+        // Share Snippet
+        private void ShareSnippet()
+        {
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += DataTransferManager_DataRequested;
+            DataTransferManager.ShowShareUI();
+        }
+        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            // Get the request args
+            DataRequest request = args.Request;
+
+            // Construct the string that'll be shared
+            StringBuilder shareTextBuilder = new StringBuilder();
+            if (Core.SelectedSnippet.Title != "")
+            {
+                shareTextBuilder.AppendLine(Core.SelectedSnippet.Title);
+                shareTextBuilder.AppendLine("");
+            }
+            shareTextBuilder.AppendLine(Core.SelectedSnippet.Details);
+            string shareText = shareTextBuilder.ToString().TrimEnd();
+
+            // Set the data to the text in the Snippet
+            request.Data.SetText(shareText);
+
+            // Set the title if it has one
+            // #TODO: Fix Title is the title is empty
+            if (Core.SelectedSnippet.Title != "")
+            {
+                request.Data.Properties.Title = (Windows.ApplicationModel.Package.Current.DisplayName + " - " + Core.SelectedSnippet.Title);
+            }
+            else
+            {
+                request.Data.Properties.Title = (Windows.ApplicationModel.Package.Current.DisplayName + " - Snippet");
+            }
+
+            // #TODO: Handle share failures
+        }
+
+
+
+        // Dialogs
         private async void ShowSettingsDialogAsync()
         {
             var dialog = new SettingsDialog();
