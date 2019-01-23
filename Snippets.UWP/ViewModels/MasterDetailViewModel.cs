@@ -147,7 +147,7 @@ namespace Snippets.UWP.ViewModels
                     _copySnippetCommand = new RelayCommand(
                         () =>
                         {
-                            // #TODO
+                            CopySnippet();
                         });
                 }
                 return _copySnippetCommand;
@@ -164,7 +164,7 @@ namespace Snippets.UWP.ViewModels
                     _copySnippetContentCommand = new RelayCommand(
                         () =>
                         {
-                            // #TODO
+                            CopySnippetContent();
                         });
                 }
                 return _copySnippetContentCommand;
@@ -213,6 +213,60 @@ namespace Snippets.UWP.ViewModels
             // #TODO: Handle share failures
         }
 
+        // Copy
+        private void CopySnippet()
+        {
+            bool success = Copy();
+            // #TODO: Add an UX message telling the user it has been copied
+        }
+        private void CopySnippetContent()
+        {
+            bool success = Copy(1);
+            // #TODO: Add an UX message telling the user it has been copied
+        }
+        /// <summary>
+        /// Copies the content of a Snippet to the Clipboard
+        /// </summary>
+        /// <param name="copyMethod">- 0 or empty: Everything.
+        /// - 1: Snippet content only
+        /// - 2: Snippet title only</param>
+        /// <returns>Returns bool telling whether copying was successful</returns>
+        private bool Copy(int copyMethod = 0)
+        {
+            bool success = false;
+
+            try
+            {
+                // Create datapackage with the copy-operation
+                DataPackage copyContent = new DataPackage();
+                copyContent.RequestedOperation = DataPackageOperation.Copy;
+
+                // Now we just have to set the content and copy this to the clipboard! :)
+                StringBuilder copyText = new StringBuilder();
+
+                if (copyMethod == 1) // Content only
+                {
+                    copyText.AppendLine(Core.SelectedSnippet.Details);
+                }
+                else if (copyMethod == 2) // Title only
+                {
+                    copyText.AppendLine(Core.SelectedSnippet.Title);
+                }
+                else // Default (both Title and Content)
+                {
+                    copyText.AppendLine(Core.SelectedSnippet.Title);
+                    copyText.AppendLine(Core.SelectedSnippet.Details);
+                }
+
+                copyContent.SetText(copyText.ToString().TrimEnd());
+                Clipboard.SetContent(copyContent);
+
+                // Send back a succes signal
+                success = true;
+            }
+            catch { success = false; }    //Congratz, you fucked up!
+            return success;
+        }
 
 
         // Dialogs
