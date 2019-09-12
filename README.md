@@ -1,7 +1,8 @@
 # Snippets
-Snippets is an app to quickly make small notitions for later.
+Snippets is an app to quickly make small notitations for later.
 
-
+## Notes
+Please keep in mind that active development of this project has been halted. Feel free to fork it and build your own version of it or use snippets (ha!) of code for your own projects.
 
 ## Get the app
 Currently this version of Snippets is not available on the Microsoft Store.
